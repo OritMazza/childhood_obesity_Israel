@@ -1,9 +1,13 @@
-setwd("C:\\Users\\אורית\\Desktop\\desktop backup2\\MBA\\reaserch\\Childhood Obesity")
-cohort.df<-read.csv("SocioEconomicand2014obesityPercentage.csv")
+#########################################The socioeconomic and demographic vars correlation test##################################################
+install.packages("RCurl")
+library(RCurl)
+x <- getURL("https://raw.githubusercontent.com/OritMazza/childhood_obesity_Israel/refs/heads/main/SocioEconomicand2014obesityPercentageGitHub.csv")
+cohort.df <- read.csv(text = x)
+cohort.df
 
 summary(cohort.df)
 
-cohort.df$EnglishLocalityName<-as.factor(cohort.df$EnglishLocalityName)
+cohort.df$X.1<-as.factor(cohort.df$X.1)
 
 #Corelation table
 # ensure the results are repeatable
@@ -23,7 +27,7 @@ print(correlationMatrix)
 
 ??correlationMatrix
 
-# find attributes that are highly corrected (ideally >0.75)
+# find attributes that are highly corrected (ideally >0.7)
 highlyCorrelated <- findCorrelation(correlationMatrix, cutoff=0.7)
 
 # print indexes of highly correlated attributes
@@ -33,19 +37,24 @@ class(highlyCorrelated)
 
 highlyCorrelated<-c(highlyCorrelated)
 
-#To file
-write.csv(correlationMatrix, file = "C:\\Users\\אורית\\Desktop\\desktop backup2\\MBA\\reaserch\\Childhood Obesity\\CorrelationMatrix.csv", row.names = TRUE)
-
 #Print the name of the columns
-#Cor>0.
-names(new.cohort.df[,c(5, 8  ,11  ,2 ,7, 10)])
+#Cor>0.7: columns in new.cohort.df are +4 than the correlation matrix
 
+names(new.cohort.df[,c(9, 12  ,15  ,6 ,11, 14)])
+#####################The highly correlated vars#############################
+#> names(new.cohort.df[,c(9, 12  ,15  ,6 ,11, 14)])
+#[1] "AVERAGE.MONTHLY.INCOME.PER.CAPITA"                                
+#[2] "PERCENT.OF.WAGE.AND.INCOME.EARNERS...ABOVE.TWICE.THE.AVERAGE.WAGE"
+#[3] "PERCENT.OF.ACADEMIC.DEGREE.HOLDERS..OF.AGED.25.54"                
+#[4] "AVERAGE.NUMBER.OF.DAYS.ABOURD"                                    
+#[5] "PERCENT.OF.WAGE.AND.INCOME.EARNERS...BELOW.THE.MINIMUM.WAGE"      
+#[6] "PERCENT.OF.WAGE.AND.INCOME.EARNERS..OF.AGED.15.AND.OVER" 
+############################################################################
 
-####################################ANOVA TEST#############################################
-#ANOVA FOR OBESITY PERCENTAGE
-setwd("C:\\Users\\97252\\Desktop\\MBA\\TASHAP\\GIS\\targilim\\Final")
-OBESITY.df<-read.csv("ForANOVA.csv")
-
+##############################################ANOVA test for the pbesity prevalence from 2014 to 2018#########################################
+x <- getURL("https://raw.githubusercontent.com/OritMazza/childhood_obesity_Israel/refs/heads/main/ForANOVAGithub.csv")
+OBESITY.df <- read.csv(text = x)
+OBESITY.df
 summary(OBESITY.df)
 OBESITY.df<-OBESITY.df[,-1]
 
