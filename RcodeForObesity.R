@@ -85,23 +85,6 @@ OBESITY.df %>%
 
 qqplot(OBESITY.df, "score", facet.by = "time")
 
-res.aov <- anova_test(data = OBESITY.df, dv = score, wid = ID, within = time)
-get_anova_table(res.aov)
+kruskal.test(score ~ time, data = OBESITY.df)
 
-#Post-hoc tests
-# pairwise comparisons
-pwc <- OBESITY.df %>%
-  pairwise_t_test(
-    score ~ time, paired = TRUE,
-    p.adjust.method = "bonferroni"
-  )
-pwc
-
-# Visualization: box plots with p-values
-pwc <- pwc %>% add_xy_position(x = "time")
-bxp + 
-  stat_pvalue_manual(pwc) +
-  labs(
-    subtitle = get_test_label(res.aov, detailed = TRUE),
-    caption = get_pwc_label(pwc)
-  )
+citation("ggpubr")
